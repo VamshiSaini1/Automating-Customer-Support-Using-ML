@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product List</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Product List</h1>
+        <div id="product-list"></div>
+    </div>
+
+    <script>
+        async function fetchProducts() {
+            const response = await fetch('/api/products');
+            const products = await response.json();
+            const productList = document.getElementById('product-list');
+            productList.innerHTML = products.map(product => `
+                <div class="product">
+                    <h2>${product.name}</h2>
+                    <p>${product.description}</p>
+                    <a href="/product?product_id=${product.id}">View Product</a>
+                </div>
+            `).join('');
+        }
+
+        fetchProducts();
+    </script>
+</body>
+
+</html>
